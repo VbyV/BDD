@@ -3,7 +3,6 @@ package page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.val;
-import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -20,9 +19,14 @@ public class DashboardPage {
     public DashboardPage() {
         heading.shouldBe(visible);
     }
-    public int getFirstCardBalance(DataHelper.CardsInfo numberForFirstCard) {
+    public int getFirstCardBalance() {
         val text = cards.first().text();
         return extractBalance(text);
+    }
+
+    public int getSecondCardBalance() {
+        val text = cards.last().text();
+        return  extractBalance(text);
     }
 
     private int extractBalance(String text) {
