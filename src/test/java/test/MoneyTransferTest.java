@@ -59,4 +59,26 @@ public class MoneyTransferTest {
         Assertions.assertEquals(secondCardNewBalance, dashboardPage.getSecondCardBalance());
     }
 
+    @Test
+    void shouldAmountBeBiggerThatBalance() {
+        open("http://localhost:9999");
+        val loginPage = new LoginPage();
+
+        val authInfo = DataHelper.getAuthInfo();
+        val verificationPage = loginPage.validLogin(authInfo);
+        val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
+        verificationPage.validVerify(verificationCode);
+        val dashboardPage = new DashboardPage();
+        val firstCardStartBalance = dashboardPage.getFirstCardBalance();
+        val secondCardStartBalance = dashboardPage.getSecondCardBalance();
+        val TransacPadge = new TransacPadge();
+        val transac = dashboardPage.transSecondCard();
+        val amount = 11000;
+        val firstCardNewBalance = firstCardStartBalance - amount;
+        val secondCardNewBalance = secondCardStartBalance + amount;
+        transac.shouldGetTransCards(Integer.parseInt(String.valueOf(amount)), DataHelper.getNumberForFirstCard());
+        Assertions.assertEquals(firstCardNewBalance, dashboardPage.getFirstCardBalance());
+        Assertions.assertEquals(secondCardNewBalance, dashboardPage.getSecondCardBalance());
+
+    }
 }
